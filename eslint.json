@@ -1,0 +1,29 @@
+{
+    "extends": [
+      "airbnb-typescript/base",
+      "prettier/@typescript-eslint",
+      "plugin:prettier/recommended"
+    ],
+    "env": {
+      "mocha": true
+    },
+    "plugins": ["prettier"],
+    "rules": {
+      "no-console": "error",
+      "semi": "off",
+      "@typescript-eslint/semi": ["error"],
+      "import/prefer-default-export": "off",
+      "no-empty-pattern": "off",
+      "import/no-cycle": "off",
+      "import/no-duplicates": "off",
+      "no-empty-function": "off",
+      "no-underscore-dangle": "off",
+      "no-useless-constructor": "off",
+      "class-methods-use-this": "off",
+      "@typescript-eslint/interface-name-prefix": ["error", { "prefixWithI": "never" }],
+      "no-empty-interface": "off",
+      "ordered-imports": "off",
+      "object-literal-sort-keys": "off",
+      "id-blacklist": ["error", "any", "Number", "number", "String", "string", "Boolean", "boolean"]
+    }
+  }
