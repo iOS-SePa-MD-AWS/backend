@@ -15,4 +15,8 @@ export const app = () => {
     })
 
     app.use("api", createRouter)
+
+    app.use("*", (req,res) => { throw new Error("Page not found!") })
+
+    return app
 }
