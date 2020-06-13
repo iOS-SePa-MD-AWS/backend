@@ -4,6 +4,7 @@
         "types": ["node"],
         "module": "CommonJS",
         "outDir": "build",
+        "moduleResolution": "node",
         "declaration": false,
         "strict": true,
         "allowSyntheticDefaultImports": false,
@@ -15,9 +16,9 @@
         "resolveJsonModule": true,
         "baseUrl": ".",
         "paths": {
-            "*": ["typings"]
+            "*": ["node_modules/*"]
         }
     },
-    "include": ["src/**/*.ts"],
-    "exclude": ["node_modules", "build/**"]
+    "include": ["src/**/*", "index.ts"],
+    // "exclude": ["node_modules", "build/**"]
 }

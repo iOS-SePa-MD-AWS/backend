@@ -1,20 +1,20 @@
 version: '3.1'
 
 services:
-  app:
-    build:
-      context: .
-    image: app
-    volumes:
-      - .:/app
-      - /app/node_modules
-    ports:
-      - 3000:3000
-    networks:
-      - app
-    depends_on:
-      - db
-      - adminer
+  # app:
+    # build:
+    #   context: .
+    # image: app
+    # volumes:
+    #   - .:/app
+    #   - /app/node_modules
+    # ports:
+    #   - 3000:3000
+    # networks:
+    #   - app
+    # depends_on:
+    #   - db
+    #   - adminer
 
   db:
     image: postgres:9
@@ -33,3 +33,6 @@ services:
       - 8080:8080
     networks:
       - app
+
+networks:
+  app: 
