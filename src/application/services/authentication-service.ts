@@ -2,7 +2,7 @@
 import * as jwt from 'jsonwebtoken';
 import * as passport from 'passport';
 import { ExtractJwt, Strategy as JWTstrategy } from 'passport-jwt';
-import { Connection } from 'typeorm';
+import { Repository } from 'typeorm';
 import { User } from '../entities/user';
  
 export interface Auth {
@@ -11,12 +11,12 @@ export interface Auth {
 }
  
 const createToken = (user: User): string => {
-  return jwt.sign({ ...user }, process.env.JWT_SECRET || "string");
+  return jwt.sign({ ...user }, process.env.JWT_SECRET || "secret");
 };
  
 const authenticate = () => passport.authenticate('jwt', { session: false });
- 
-export const createAuth = (db: Connection): Auth => {
+
+export const createAuth = (userRepository: Repository<User>): Auth => {
   passport.use(
     new JWTstrategy(
       {
@@ -24,7 +24,7 @@ export const createAuth = (db: Connection): Auth => {
         secretOrKey: process.env.JWT_SECRET,
       },
       async (token, done) => {
-        const user = await db.getRepository(User).findOne(token.id);
+        const user = await userRepository.findOne(token.id);
  
         if (user) {
           return done(null, user);

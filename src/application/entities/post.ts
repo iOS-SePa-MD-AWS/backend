@@ -1,17 +1,19 @@
 
 import { Entity, Column, Repository, ManyToOne, PrimaryColumn } from "typeorm";
 import { User } from "./user";
+import { v4 } from "uuid";
 
 
 @Entity()
 export class Post extends Repository<Post> {
     public static create(post:Partial<Post>){
         const entity = new Post()
-        Object.assign(entity, post)
+        const createdAt = new Date()
+        Object.assign(entity, {...post, createdAt})
         return entity
     }
 
-    @PrimaryColumn("uuid")
+    @PrimaryColumn("uuid", {default: v4()})
     id: number;
 
     @ManyToOne(type=> User, user=>user.posts)

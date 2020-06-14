@@ -4,13 +4,9 @@ import { Post } from "./entities/post";
 
 export const dbConnection = (): Promise<Connection> => 
     createConnection({
-        database: "app",
-        password: "app",
-        host: "db",
-        username: "app",
-        type: 'postgres',
+        url: process.env.CONNETCION_STRING || "postgres://app:app@localhost:5432/app",
+        type: "postgres",
         synchronize: true,
-        port:5432,
         logging:false,
         entities: [User,Post]
     })

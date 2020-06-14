@@ -2,8 +2,8 @@ import { Joi } from "celebrate";
 
 export const createValidator = {
     body: {
-        email: Joi.string().email().required(),
-        password: Joi.string().required()
+        comment: Joi.string().max(1000).required(),
+        image: Joi.any().required()
     }
 }
 

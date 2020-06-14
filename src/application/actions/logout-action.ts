@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
+import { Dependencies } from "../dependencies";
 
-export const logoutAction = (dependencies:any) => (req:Request,res:Response, next:NextFunction) => {
-    console.log("TEST!")
-    res.status(200).send({xd:"XD"})
+export const logoutAction = (dependencies:Partial<Dependencies>) => (req:Request,res:Response, next:NextFunction) => {
+    res.status(200).send({XDDDD: "po prostu wyjeb ten token XD"})
 }

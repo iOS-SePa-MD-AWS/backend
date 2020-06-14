@@ -51,19 +51,15 @@ export const SESService = () => {
       return send
 }
 
-export const S3service = () => {
-    const s3 = new S3()
-
-    const upload = async (body: S3.Body, key: S3.ObjectKey, bucket: string): Promise<S3.ManagedUpload.SendData> => {
-        return new Promise((resolve, reject) => {
-          s3.upload({ Bucket: bucket, Body: body, Key: key }, (err, data) => {
-            if (err) {
-              reject(err);
-            }
-            resolve(data);
-          });
-        });
-    }
-
-    return upload
+export const upload = async (body: S3.Body, key: S3.ObjectKey): Promise<S3.ManagedUpload.SendData> => {
+  const s3 = new S3()
+  
+  return new Promise((resolve, reject) => {
+    s3.upload({ Bucket: process.env.FILES_BUCKET || "zdam", Body: body, Key: key }, (err, data) => {
+      if (err) {
+        reject(err);
+      }
+      resolve(data);
+    });
+  });
 }

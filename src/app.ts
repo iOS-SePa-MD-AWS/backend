@@ -3,10 +3,11 @@ import * as cors from "cors";
 import * as helmet from "helmet";
 import { createRouter } from "./application/router"
 import { errorHandler } from "./application/error-handler";
+import { getDependencies } from "./application/dependencies";
 
 export const app = async () => {
     const app = express()
-    const deps = {}
+    const deps = await getDependencies()
 
     app.use(cors())
     app.use(helmet())
