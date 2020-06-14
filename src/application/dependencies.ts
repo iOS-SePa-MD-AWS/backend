@@ -16,7 +16,7 @@ export interface Dependencies {
 
 export const getDependencies = async () => {
     const db = await dbConnection()
-
+    
     const usersRepository = db.getRepository(User)
     const postsRepository = db.getRepository(Post)
     const s3 = upload

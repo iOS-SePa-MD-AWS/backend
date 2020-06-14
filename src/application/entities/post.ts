@@ -9,22 +9,25 @@ export class Post extends Repository<Post> {
     public static create(post:Partial<Post>){
         const entity = new Post()
         const createdAt = new Date()
-        Object.assign(entity, {...post, createdAt})
+        const id = v4()
+        
+        Object.assign(entity, {...post, createdAt, id})
+
         return entity
     }
 
-    @PrimaryColumn("uuid", {default: v4()})
+    @PrimaryColumn("uuid", { default: v4() })
     id: number;
 
     @ManyToOne(type=> User, user=>user.posts)
     user: User;
 
-    @Column()
+    @Column({nullable: false})
     fileUrl: string;
 
-    @Column({length:1000})
+    @Column({length:1000, nullable: false})
     comment: string
 
-    @Column()
+    @Column({nullable: false})
     createdAt: Date;
 }

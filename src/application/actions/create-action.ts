@@ -2,34 +2,34 @@ import { Request, Response, NextFunction } from "express";
 import { Form } from "multiparty"
 import { Post } from "../entities/post";
 import { Repository } from "typeorm";
+import { User } from "../entities/user";
+import * as toString from "stream-to-string"
 
 interface Deps {
     upload: any,
-    postsRepository: Repository<Post>
+    postsRepository: Repository<Post>,
+    usersRepository: Repository<User>
 }
 
-export const createAction = ({upload, postsRepository}:Deps) => (req:Request,res:Response, next:NextFunction) => {
+export const createAction = ({upload, postsRepository, usersRepository}:Deps) => (req:Request,res:Response, next:NextFunction) => {
 
     try{
         const form = new Form()
-        let url = ""
-        let comment = ""
-        const commentChunks:any[] = []
         const files: Promise<any>[] = []
+        let comment = ""
 
-        
         form.on('error', () => {
             throw new Error("Something went wrong")
         });
     
-        form.on('part', part => {
+        form.on('part', async part => {
             if (!part.filename) {
-                commentChunks.push(part)
+                comment = await toString(part)
                 part.resume();
             }
         
             if (part.filename) {
-                files.push(upload(part, part.filename).catch(next))
+                files.push(upload(part, `${new Date().toISOString()}_${part.filename}`).catch(next))
                 part.resume();
             }
         
@@ -39,14 +39,18 @@ export const createAction = ({upload, postsRepository}:Deps) => (req:Request,res
         });
 
         form.on('close', async () => {
-            // comment = Buffer.concat(commentChunks).toString('utf8')
-            const xd = await Promise.all(files)
+            const [image] = await Promise.all(files)
+            //@ts-ignore
+            const author = await usersRepository.findOne({where:{id: req.user!.id}})
+            const newPost = Post.create({comment, fileUrl: image.Location, user:author}) 
+
+            postsRepository.save(newPost)
+            delete newPost.user
+
+            res.json(newPost)   
         });
 
-        // const newPost = Post.create({comment, fileUrl: url}) 
-        // postsRepository.save(newPost)
 
-        // res.json(newPost)
         form.parse(req)
     }catch(err){
         next(err)

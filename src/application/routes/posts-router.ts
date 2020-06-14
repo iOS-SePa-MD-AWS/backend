@@ -11,6 +11,7 @@ export const createRouter = (dependencies: Partial<Dependencies>) => {
     router.get("/newest", celebrate(newestValidator), newestAction({postsRepository: dependencies.postsRepository!}))
     router.post("/create", dependencies.auth!.authenticate, createAction({ 
         postsRepository: dependencies.postsRepository!,
+        usersRepository: dependencies.usersRepository!,
         upload: dependencies.s3!
     }))
     
