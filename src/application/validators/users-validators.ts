@@ -8,3 +8,10 @@ export const signValidator = {
 }
 
 export const logoutValidator = { body: {} }
+
+export const changePasswordValidator = { 
+    body: {
+        password: Joi.string().required(),
+        reset_password: Joi.string().required(),
+    } 
+}

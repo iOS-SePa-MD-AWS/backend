@@ -1,4 +1,4 @@
-import { Entity, Column, Repository, OneToMany, PrimaryColumn } from "typeorm";
+import { Entity, Column, Repository, OneToMany, PrimaryColumn, JoinColumn } from "typeorm";
 import { Post } from "./post";
 import { v4 } from "uuid"
 
@@ -20,5 +20,6 @@ export class User extends Repository<User> {
     password: string;
     
     @OneToMany(type => Post, post => post.user)
+    @JoinColumn()
     posts: Post[]
 }

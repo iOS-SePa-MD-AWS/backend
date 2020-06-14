@@ -1,5 +1,5 @@
 
-import { Entity, Column, Repository, ManyToOne, PrimaryColumn } from "typeorm";
+import { Entity, Column, Repository, ManyToOne, PrimaryColumn, JoinColumn } from "typeorm";
 import { User } from "./user";
 import { v4 } from "uuid";
 
@@ -20,6 +20,7 @@ export class Post extends Repository<Post> {
     id: number;
 
     @ManyToOne(type=> User, user=>user.posts)
+    @JoinColumn()
     user: User;
 
     @Column({nullable: false})
